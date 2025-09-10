@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<link rel="manifest" href="manifest.json">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Helluva Boss Music Player</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=UnifrakturCook:wght@700&family=Roboto:wght@400;700&display=swap');
+
+body {
+    background: url(https://images8.alphacoders.com/119/1198707.jpg);
+    font-family: 'Roboto', sans-serif;
+    color: #f1f1f1;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.format-switch {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 15px;
+    font-size: 0.9em;
+    color: #ff9999;
+}
+.format-switch input {
+    margin-right: 5px;
+}
+
+.player-container {
+    background: rgba(10, 0, 0, 0.85);
+    border: 2px solid #7a0b1b;
+    box-shadow: 0 0 30px rgba(200,0,40,0.6);
+    border-radius: 12px;
+    padding: 25px;
+    width: 90%;
+    max-width: 420px;
+    text-align: center;
+    backdrop-filter: blur(6px);
+}
+
+h2 {
+    font-family: 'UnifrakturCook', cursive;
+    color: #ff3344;
+    font-size: 2em;
+    margin-bottom: 20px;
+    text-shadow: 0 0 8px #ff0000, 0 0 15px #7a0b1b;
+}
+
+/* ----------- LISTES SAISONS ----------- */
+details {
+    margin: 10px 0;
+    border: 1px solid #7a0b1b;
+    border-radius: 6px;
+    overflow: hidden;
+}
+summary {
+    padding: 10px;
+    cursor: pointer;
+    font-weight: bold;
+    color: #ff3344;
+    background: linear-gradient(90deg, #300, #600);
+    list-style: none;
+    text-shadow: 0 0 5px #ff0000;
+}
+summary::-webkit-details-marker { display: none; }
+details[open] summary { background: linear-gradient(90deg, #600, #900); }
+
+.playlist ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    max-height: 150px;
+    overflow-y: auto;
+}
+.playlist li {
+    padding: 8px;
+    cursor: pointer;
+    border-bottom: 1px solid #331111;
+    transition: background 0.3s, color 0.3s;
+}
+.playlist li:hover {
+    background: #2a0d0d;
+    color: #ff5555;
+}
+
+/* ----------- BOUTONS ----------- */
+.controls {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+button {
+    background: radial-gradient(circle, #550000, #220000);
+    border: 2px solid #aa2233;
+    color: #ff3344;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 0 10px rgba(255,0,50,0.5);
+}
+button:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 20px rgba(255,0,80,0.9);
+}
+button svg { width: 26px; height: 26px; fill: currentColor; }
+
+/* ----------- TRACK + BARRE CUSTOM ----------- */
+#current-track { margin-top: 15px; font-size: 1em; color: #ccc; font-style: italic; }
+.progress-container {
+    margin-top: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+#current-time, #duration { font-size: 0.85em; min-width: 40px; text-align: center; }
+#progress-bar {
+    flex: 1;
+    height: 8px;
+    background: #300;
+    border-radius: 5px;
+    overflow: hidden;
+    cursor: pointer;
+    box-shadow: inset 0 0 5px #000;
+}
+#progress {
+    width: 0%;
+    height: 100%;
+    background: linear-gradient(90deg, #ff0033, #ff8800);
+    transition: width 0.1s;
+}
+
+.install-container {
+    margin-top: 20px;
+    text-align: center; /* Force le centrage horizontal */
+}
+
+#installBtn {
+    display: inline-block; /* pour que text-align fonctionne */
+    background: radial-gradient(circle, #550000, #220000);
+    border: 2px solid #aa2233;
+    color: #ff3344;
+    border-radius: 12px;
+    padding: 10px 20px;
+    font-size: 1em;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(255,0,50,0.5);
+    transition: transform 0.2s, box-shadow 0.2s;
+    width: auto;
+}
+
+#installBtn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 20px rgba(255,0,80,0.9);
+}  
+    
+/* ----------- RESPONSIVE ----------- */
+@media (max-width: 480px) {
+    h1 { font-size: 1.5em; }
+    button { width: 50px; height: 50px; }
+    button svg { width: 20px; height: 20px; }
+}
+</style>
+</head>
+<body>
+<div class="player-container">
+    <h2>Helluva Boss Music Player</h2>
+    <br>
+<div class="format-switch">
+    <label>
+        <input type="radio" name="format" value="mp3" checked>
+        MP3 (léger, compatible)
+    </label>
+    <label>
+        <input type="radio" name="format" value="flac">
+        FLAC (lossless, meilleure qualité)
+    </label>
+</div>
+    <div class="playlist">
+        <details>
+            <summary>Saison 1</summary>
+            <ul id="saison1"></ul>
+        </details>
+        <details>
+            <summary>Saison 2</summary>
+            <ul id="saison2"></ul>
+        </details>
+    </div>
+
+    <div class="controls">
+        <button id="prev" title="Précédent">
+            <svg viewBox="0 0 24 24"><path d="M6 12L20 4v16L6 12zm-2 8V4h2v16H4z"/></svg>
+        </button>
+        <button id="play" title="Lecture/Pause">
+            <svg id="play-icon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+            <svg id="pause-icon" viewBox="0 0 24 24" style="display:none"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+        </button>
+        <button id="next" title="Suivant">
+            <svg viewBox="0 0 24 24"><path d="M18 12L4 20V4l14 8zm2-8v16h-2V4h2z"/></svg>
+        </button>
+    </div>
+
+    <div class="progress-container">
+        <span id="current-time">0:00</span>
+        <div id="progress-bar">
+            <div id="progress"></div>
+        </div>
+        <span id="duration">0:00</span>
+    </div>
+
+    <div id="current-track">Aucune musique</div>
+    <audio id="audio"></audio>
+    <br><br>
+        <div class="install-container">
+        <button id="installBtn">Installer l'application</button>
+    </div>
+</div>
+
+<script>
+const audio = document.getElementById('audio');
+const currentTrackLabel = document.getElementById('current-track');
+const playBtn = document.getElementById('play');
+const playIcon = document.getElementById('play-icon');
+const pauseIcon = document.getElementById('pause-icon');
+const progressBar = document.getElementById('progress-bar');
+const progress = document.getElementById('progress');
+const currentTimeEl = document.getElementById('current-time');
+const durationEl = document.getElementById('duration');
+
+let playlist = [];
+let currentIndex = 0;
+
+// Charger playlist
+fetch("tracks.json")
+    .then(res => res.json())
+    .then(data => {
+        buildPlaylist(data["Saison1"], "saison1");
+        buildPlaylist(data["Saison2"], "saison2");
+    });
+
+function buildPlaylist(list, ulId) {
+    const ul = document.getElementById(ulId);
+    list.forEach(track => {
+        const li = document.createElement('li');
+        li.textContent = track.title;
+        li.onclick = () => playTrack(track);
+        ul.appendChild(li);
+    });
+}
+
+let selectedFormat = "mp3";
+
+// Switch des radios
+document.querySelectorAll('input[name="format"]').forEach(radio => {
+    radio.addEventListener('change', e => {
+        selectedFormat = e.target.value;
+    });
+});
+
+function playTrack(track) {
+    // Priorité selon le format choisi
+    let file;
+    if(selectedFormat === "mp3") {
+        file = track.files.find(f => f.endsWith(".mp3")) || track.files[0];
+    } else {
+        file = track.files.find(f => f.endsWith(".flac")) || track.files[0];
+    }
+    playlist = [file];
+    currentIndex = 0;
+    playCurrent();
+}
+
+function playCurrent() {
+    audio.src = playlist[currentIndex];
+    audio.play();
+    currentTrackLabel.textContent = playlist[currentIndex].split('/').pop();
+    playIcon.style.display = "none";
+    pauseIcon.style.display = "block";
+}
+
+// Play / Pause toggle
+playBtn.onclick = () => {
+    if(audio.paused) {
+        audio.play();
+        playIcon.style.display = "none";
+        pauseIcon.style.display = "block";
+    } else {
+        audio.pause();
+        playIcon.style.display = "block";
+        pauseIcon.style.display = "none";
+    }
+};
+
+// Next / Prev
+document.getElementById('next').onclick = () => {
+    currentIndex = (currentIndex + 1) % playlist.length;
+    playCurrent();
+};
+document.getElementById('prev').onclick = () => {
+    currentIndex = (currentIndex - 1 + playlist.length) % playlist.length;
+    playCurrent();
+};
+
+// Progression de la barre
+audio.addEventListener('timeupdate', () => {
+    if(audio.duration) {
+        const percent = (audio.currentTime / audio.duration) * 100;
+        progress.style.width = percent + "%";
+        currentTimeEl.textContent = formatTime(audio.currentTime);
+        durationEl.textContent = formatTime(audio.duration);
+    }
+});
+
+// Clic sur la barre pour sauter
+progressBar.addEventListener('click', e => {
+    const rect = progressBar.getBoundingClientRect();
+    const clickX = e.clientX - rect.left;
+    const newTime = (clickX / rect.width) * audio.duration;
+    audio.currentTime = newTime;
+});
+
+// Format mm:ss
+function formatTime(sec) {
+    if (isNaN(sec)) return "0:00";
+    const minutes = Math.floor(sec / 60);
+    const seconds = Math.floor(sec % 60).toString().padStart(2, "0");
+    return `${minutes}:${seconds}`;
+}
+
+// Auto-next
+audio.onended = () => {
+    currentIndex = (currentIndex + 1) % playlist.length;
+    playCurrent();
+};
+    
+    let deferredPrompt;
+
+window.addEventListener('beforeinstallprompt', (e) => {
+    // Empêcher l'affichage automatique
+    e.preventDefault();
+    deferredPrompt = e;
+    document.getElementById('installBtn').style.display = 'inline-block';
+});
+
+const installBtn = document.getElementById('installBtn');
+installBtn.addEventListener('click', async () => {
+    if (deferredPrompt) {
+        deferredPrompt.prompt();
+        const { outcome } = await deferredPrompt.userChoice;
+        if(outcome === 'accepted') {
+            console.log('Utilisateur a installé l’application');
+        } else {
+            console.log('Installation refusée');
+        }
+        deferredPrompt = null;
+    }
+});
+
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('sw.js')
+        .then(reg => console.log('Service Worker enregistré :', reg))
+        .catch(err => console.error('Erreur SW :', err));
+    });
+}
+</script>
+</body>
+</html>
