@@ -239,58 +239,84 @@ const progress = document.getElementById('progress');
 const currentTimeEl = document.getElementById('current-time');
 const durationEl = document.getElementById('duration');
 
+let allTracks = [];
 let playlist = [];
 let currentIndex = 0;
+let selectedFormat = "mp3";
 
-// Charger playlist
+// Charger toutes les musiques
 fetch("tracks.json")
     .then(res => res.json())
     .then(data => {
+        allTracks = [...data["Saison1"], ...data["Saison2"]];
         buildPlaylist(data["Saison1"], "saison1");
         buildPlaylist(data["Saison2"], "saison2");
+        buildGlobalPlaylist();
     });
 
+// Construire les listes visibles
 function buildPlaylist(list, ulId) {
     const ul = document.getElementById(ulId);
     list.forEach(track => {
         const li = document.createElement('li');
         li.textContent = track.title;
-        li.onclick = () => playTrack(track);
+        li.onclick = () => playTrack(allTracks.indexOf(track));
         ul.appendChild(li);
     });
 }
 
-let selectedFormat = "mp3";
-
-// Switch des radios
-document.querySelectorAll('input[name="format"]').forEach(radio => {
-    radio.addEventListener('change', e => {
-        selectedFormat = e.target.value;
+// Construire la playlist globale selon le format choisi
+function buildGlobalPlaylist() {
+    playlist = allTracks.map(track => {
+        if(selectedFormat === "mp3") {
+            return track.files.find(f => f.endsWith(".mp3")) || track.files[0];
+        } else {
+            return track.files.find(f => f.endsWith(".flac")) || track.files[0];
+        }
     });
-});
+}
 
-function playTrack(track) {
-    // Priorité selon le format choisi
-    let file;
-    if(selectedFormat === "mp3") {
-        file = track.files.find(f => f.endsWith(".mp3")) || track.files[0];
-    } else {
-        file = track.files.find(f => f.endsWith(".flac")) || track.files[0];
+// Fonction pour jouer une piste par index
+function playTrack(index) {
+    currentIndex = index;
+    const url = playlist[currentIndex];
+
+    // Définir le bon type MIME
+    let mimeType = 'audio/mpeg'; // MP3 par défaut
+    if (url && url.endsWith('.flac')) {
+        mimeType = 'audio/flac';
     }
-    playlist = [file];
-    currentIndex = 0;
-    playCurrent();
+
+    fetch(url)
+        .then(response => response.arrayBuffer())
+        .then(arrayBuffer => {
+            const oldSrc = audio.src;
+            const blob = new Blob([arrayBuffer], { type: mimeType });
+            const blobUrl = URL.createObjectURL(blob);
+            audio.src = blobUrl;
+
+            // Nettoyer l'ancien blob
+            if (oldSrc && oldSrc.startsWith('blob:')) {
+                URL.revokeObjectURL(oldSrc);
+            }
+
+            currentTrackLabel.textContent = url.split('/').pop();
+
+            audio.play().catch(err => {
+                console.warn("Impossible de lire automatiquement", err);
+                // Optionnel : afficher un message à l'utilisateur
+            });
+
+            playIcon.style.display = "none";
+            pauseIcon.style.display = "block";
+        })
+        .catch(err => {
+            console.error("Erreur de chargement :", err);
+            currentTrackLabel.textContent = "❌ Erreur de chargement";
+        });
 }
 
-function playCurrent() {
-    audio.src = playlist[currentIndex];
-    audio.play();
-    currentTrackLabel.textContent = playlist[currentIndex].split('/').pop();
-    playIcon.style.display = "none";
-    pauseIcon.style.display = "block";
-}
-
-// Play / Pause toggle
+// Toggle Play / Pause
 playBtn.onclick = () => {
     if(audio.paused) {
         audio.play();
@@ -306,16 +332,16 @@ playBtn.onclick = () => {
 // Next / Prev
 document.getElementById('next').onclick = () => {
     currentIndex = (currentIndex + 1) % playlist.length;
-    playCurrent();
+    playTrack(currentIndex);
 };
 document.getElementById('prev').onclick = () => {
     currentIndex = (currentIndex - 1 + playlist.length) % playlist.length;
-    playCurrent();
+    playTrack(currentIndex);
 };
 
-// Progression de la barre
+// Mise à jour barre de progression
 audio.addEventListener('timeupdate', () => {
-    if(audio.duration) {
+    if (audio.duration) {
         const percent = (audio.currentTime / audio.duration) * 100;
         progress.style.width = percent + "%";
         currentTimeEl.textContent = formatTime(audio.currentTime);
@@ -323,32 +349,56 @@ audio.addEventListener('timeupdate', () => {
     }
 });
 
-// Clic sur la barre pour sauter
+// Fin de la musique → next
+audio.addEventListener('ended', () => {
+    currentIndex = (currentIndex + 1) % playlist.length;
+    playTrack(currentIndex);
+});
+
+// Clic sur la barre pour naviguer
 progressBar.addEventListener('click', e => {
+    if (!audio.duration) return;
     const rect = progressBar.getBoundingClientRect();
-    const clickX = e.clientX - rect.left;
-    const newTime = (clickX / rect.width) * audio.duration;
+    const percent = (e.clientX - rect.left) / rect.width;
+    const newTime = percent * audio.duration;
     audio.currentTime = newTime;
 });
 
 // Format mm:ss
 function formatTime(sec) {
-    if (isNaN(sec)) return "0:00";
+    if(isNaN(sec)) return "0:00";
     const minutes = Math.floor(sec / 60);
     const seconds = Math.floor(sec % 60).toString().padStart(2, "0");
     return `${minutes}:${seconds}`;
 }
 
-// Auto-next
-audio.onended = () => {
-    currentIndex = (currentIndex + 1) % playlist.length;
-    playCurrent();
-};
-    
-    let deferredPrompt;
+// Switch du format
+document.querySelectorAll('input[name="format"]').forEach(radio => {
+    radio.addEventListener('change', () => {
+        const wasPlaying = !audio.paused;
+        const oldTime = audio.currentTime || 0;
 
+        selectedFormat = radio.value;
+        buildGlobalPlaylist(); // reconstruit playlist correcte
+
+        playTrack(currentIndex); // recharge en blob avec nouveau format
+
+        // Attendre que metadata soit dispo pour restaurer le temps
+        const restoreTime = () => {
+            audio.currentTime = Math.max(0, Math.min(oldTime, audio.duration));
+            if (wasPlaying) {
+                audio.play().catch(console.error);
+            }
+            audio.removeEventListener('loadedmetadata', restoreTime);
+        };
+
+        audio.addEventListener('loadedmetadata', restoreTime);
+    });
+});
+
+// Bouton installation PWA
+let deferredPrompt;
 window.addEventListener('beforeinstallprompt', (e) => {
-    // Empêcher l'affichage automatique
     e.preventDefault();
     deferredPrompt = e;
     document.getElementById('installBtn').style.display = 'inline-block';
@@ -359,15 +409,13 @@ installBtn.addEventListener('click', async () => {
     if (deferredPrompt) {
         deferredPrompt.prompt();
         const { outcome } = await deferredPrompt.userChoice;
-        if(outcome === 'accepted') {
-            console.log('Utilisateur a installé l’application');
-        } else {
-            console.log('Installation refusée');
-        }
+        if(outcome === 'accepted') console.log('Utilisateur a installé l’application');
+        else console.log('Installation refusée');
         deferredPrompt = null;
     }
 });
 
+// Service Worker
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
         navigator.serviceWorker.register('sw.js')
@@ -376,5 +424,6 @@ if ('serviceWorker' in navigator) {
     });
 }
 </script>
+
 </body>
 </html>
