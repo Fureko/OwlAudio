@@ -1,6 +1,6 @@
 {
-  "name": "Helluva Boss Player",
-  "short_name": "HB Player",
+  "name": "DeerCast",
+  "short_name": "DeerCast",
   "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#1a0005",

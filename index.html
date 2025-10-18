@@ -4,201 +4,410 @@
 <link rel="manifest" href="manifest.json">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Helluva Boss Music Player</title>
+<title>DeerCast</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=UnifrakturCook:wght@700&family=Roboto:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
 
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+/* =======================
+   RESET / BASE
+   ======================= */
+* { box-sizing: border-box; }
+html, body { height: 100%; }
 body {
-    background: url(https://images8.alphacoders.com/119/1198707.jpg);
-    font-family: 'Roboto', sans-serif;
-    color: #f1f1f1;
+    background: radial-gradient(circle at top left, #1a0000, #000);
+    background-image: url('https://images8.alphacoders.com/119/1198707.jpg');
+    background-size: cover;
+    background-position: center;
+    font-family: 'Poppins', sans-serif;
+    color: #eee;
     margin: 0;
     padding: 0;
-    min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
+    height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    backdrop-filter: blur(8px);
+    overflow: hidden;
+    animation: fadeInBody 400ms ease forwards;
+}
+@keyframes fadeInBody {
+    from { opacity: 0; transform: scale(0.995); }
+    to { opacity: 1; transform: scale(1); }
 }
 
-.format-switch {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-    margin-bottom: 15px;
-    font-size: 0.9em;
-    color: #ff9999;
-}
-.format-switch input {
-    margin-right: 5px;
-}
-
-.player-container {
-    background: rgba(10, 0, 0, 0.85);
-    border: 2px solid #7a0b1b;
-    box-shadow: 0 0 30px rgba(200,0,40,0.6);
-    border-radius: 12px;
-    padding: 25px;
-    width: 90%;
+/* =======================
+   PLAYER CONTAINER
+   ======================= */
+.player-container{
+    background: rgba(20, 0, 0, 0.66);
+    border-radius: 20px;
+    padding: 32px 26px;
+    width: 94%;
     max-width: 420px;
     text-align: center;
-    backdrop-filter: blur(6px);
+    border: 1px solid rgba(255,20,50,0.18);
+    box-shadow: 0 10px 40px rgba(200,20,60,0.16);
+    backdrop-filter: blur(14px);
+    transition: transform 300ms ease, box-shadow 300ms ease;
+}
+.player-container:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 18px 60px rgba(200,20,60,0.26);
 }
 
+/* =======================
+   TITLE
+   ======================= */
 h2 {
-    font-family: 'UnifrakturCook', cursive;
-    color: #ff3344;
-    font-size: 2em;
-    margin-bottom: 20px;
-    text-shadow: 0 0 8px #ff0000, 0 0 15px #7a0b1b;
+    margin: 0 0 18px 0;
+    font-size: 1.9rem;
+    color: #ff3355;
+    letter-spacing: 0.6px;
+    text-shadow: 0 0 10px rgba(255,50,90,0.6);
+    animation: titleIn 450ms ease;
+}
+@keyframes titleIn {
+    from { opacity: 0; transform: translateY(-8px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
-/* ----------- LISTES SAISONS ----------- */
+/* =======================
+   FORMAT SWITCH (MP3 / FLAC)
+   ======================= */
+.format-switch {
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    margin-bottom: 18px;
+    height: 40px;
+    position:relative;
+}
+
+/* wrapper */
+.switch-wrapper {
+    width: 180px;
+    height: 36px;
+    border-radius: 28px;
+    background: rgba(255,50,80,0.12);
+    border: 1px solid rgba(255,50,80,0.18);
+    position: relative;
+    cursor: pointer;
+    transition: box-shadow 200ms ease, transform 200ms ease;
+}
+.switch-wrapper:hover { box-shadow: 0 6px 18px rgba(255,50,80,0.12); }
+
+/* moving toggle */
+.switch-toggle {
+    position: absolute;
+    top: 3px;
+    left: 3px;                /* JS moves this to 93px for FLAC */
+    width: 84px;
+    height: 30px;
+    border-radius: 20px;
+    background: linear-gradient(90deg,#ff0040,#ff7700);
+    box-shadow: 0 6px 18px rgba(255,60,90,0.18), inset 0 -2px 6px rgba(0,0,0,0.15);
+    transition: left 260ms cubic-bezier(.2,.9,.2,1), transform 180ms ease;
+    z-index: 0;
+}
+
+/* labels */
+.switch-label {
+    position: absolute;
+    top: 0;
+    height: 36px;
+    width: 50%;
+    line-height: 36px;
+    text-align: center;
+    color: #ff9aa8;
+    font-weight: 600;
+    font-size: 0.92rem;
+    z-index: 1;
+    user-select: none;
+    transition: color 180ms ease;
+}
+.switch-label[data-format="mp3"] { left: 0; padding-left: 10px; }
+.switch-label[data-format="flac"] { left: 50%; padding-right: 10px; }
+.switch-label.active { color: #fff; }
+
+/* =======================
+   PLAYLIST / DETAILS
+   ======================= */
+/* ===== DETAILS & PLAYLIST ===== */
 details {
     margin: 10px 0;
-    border: 1px solid #7a0b1b;
-    border-radius: 6px;
+    background: rgba(50, 0, 0, 0.28);
+    border-radius: 10px;
+    border: 1px solid rgba(255,50,80,0.12);
     overflow: hidden;
+    transition: background 220ms ease, transform 220ms ease;
 }
+
+details[open] {
+    background: rgba(255,30,80,0.08);
+    transform: scale(1.005);
+}
+
+/* Summary */
 summary {
-    padding: 10px;
     cursor: pointer;
-    font-weight: bold;
-    color: #ff3344;
-    background: linear-gradient(90deg, #300, #600);
-    list-style: none;
-    text-shadow: 0 0 5px #ff0000;
+    padding: 12px 14px;
+    font-weight: 600;
+    color: #ff4455;
+    position: relative;
+    user-select: none;
+    display: block;
+    transition: color 180ms ease, background 180ms ease;
 }
-summary::-webkit-details-marker { display: none; }
-details[open] summary { background: linear-gradient(90deg, #600, #900); }
 
-.playlist ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    max-height: 150px;
+summary:hover {
+    color: #fff;
+    background: rgba(255,30,80,0.06);
+}
+
+/* Arrow indicator */
+details > summary::after {
+    content: '▼';
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%) rotate(0deg);
+    color: #ff6677;
+    transition: transform 320ms cubic-bezier(.2,.9,.2,1);
+    font-size: 0.85rem;
+}
+
+details[open] > summary::after {
+    transform: translateY(-50%) rotate(180deg);
+}
+
+/* Playlist inside details */
+details > .playlist {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transform: translateY(-10px);
+    transition:
+        max-height 500ms cubic-bezier(.2,.9,.2,1),
+        opacity 260ms ease,
+        transform 360ms cubic-bezier(.2,.9,.2,1);
+}
+
+/* When details open */
+details[open] > .playlist {
+    max-height: 300px;   /* limite avant scroll */
+    opacity: 1;
     overflow-y: auto;
-}
-.playlist li {
-    padding: 8px;
-    cursor: pointer;
-    border-bottom: 1px solid #331111;
-    transition: background 0.3s, color 0.3s;
-}
-.playlist li:hover {
-    background: #2a0d0d;
-    color: #ff5555;
+    transform: translateY(0);
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255,50,80,0.6) rgba(40,0,0,0.25);
 }
 
-/* ----------- BOUTONS ----------- */
+/* Playlist items */
+.playlist li {
+    padding: 10px;
+    border-bottom: 1px solid rgba(255,30,80,0.06);
+    cursor: pointer;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: #e8dfe0;
+    font-size: 0.95rem;
+    transition: background 180ms, color 180ms, transform 200ms;
+}
+
+.playlist li:hover {
+    background: rgba(255,30,80,0.06);
+    color: #ff99a8;
+    transform: translateX(6px);
+}
+
+.playlist li.playing {
+    background: linear-gradient(90deg, rgba(255,50,80,0.12), rgba(255,100,120,0.06));
+    color: #fff;
+    animation: pulseTrack 900ms ease infinite;
+}
+
+@keyframes pulseTrack {
+    0% { box-shadow: none; opacity: 1; }
+    50% { box-shadow: 0 6px 20px rgba(255,30,80,0.06); opacity: 0.98; }
+    100% { box-shadow: none; opacity: 1; }
+}
+
+/* Scrollbars Webkit */
+details[open] > .playlist::-webkit-scrollbar { width: 6px; }
+details[open] > .playlist::-webkit-scrollbar-thumb {
+    background: rgba(255,50,80,0.65);
+    border-radius: 10px;
+}
+details[open] > .playlist::-webkit-scrollbar-track {
+    background: rgba(40,0,0,0.2);
+}
+details[open] > .playlist:hover::-webkit-scrollbar { opacity: 1; }
+
+/* Responsive */
+@media (max-width: 480px) {
+    .playlist li { font-size: 0.85rem; padding: 8px; }
+    summary { font-size: 0.9rem; padding: 10px 12px; }
+}
+/* =======================
+   CONTROLS / BUTTONS
+   ======================= */
 .controls {
     margin-top: 20px;
-    display: flex;
-    justify-content: center;
-    gap: 15px;
+    display:flex;
+    justify-content:center;
+    gap: 18px;
+    align-items: center;
+    animation: controlsIn 420ms ease;
 }
+@keyframes controlsIn { from { opacity: 0; transform: translateY(8px);} to{opacity:1;transform:none;} }
+
 button {
-    background: radial-gradient(circle, #550000, #220000);
-    border: 2px solid #aa2233;
-    color: #ff3344;
-    border-radius: 50%;
+    background: rgba(255,50,80,0.12);
+    border: 2px solid rgba(255,80,120,0.12);
     width: 60px;
     height: 60px;
+    border-radius: 50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color: #ff9aa8;
     cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: transform 0.2s, box-shadow 0.2s;
-    box-shadow: 0 0 10px rgba(255,0,50,0.5);
+    transition: transform 160ms ease, box-shadow 160ms ease, background 160ms ease;
+    backdrop-filter: blur(6px);
 }
 button:hover {
-    transform: scale(1.1);
-    box-shadow: 0 0 20px rgba(255,0,80,0.9);
+    transform: scale(1.12);
+    color: #fff;
+    background: rgba(255,50,80,0.22);
+    box-shadow: 0 10px 30px rgba(255,40,80,0.12);
 }
-button svg { width: 26px; height: 26px; fill: currentColor; }
+button svg { width: 26px; height: 26px; fill: currentColor; transition: transform 120ms ease; }
+button:active svg { transform: scale(0.92); }
 
-/* ----------- TRACK + BARRE CUSTOM ----------- */
-#current-track { margin-top: 15px; font-size: 1em; color: #ccc; font-style: italic; }
+/* =======================
+   PROGRESS / TRACK INFO
+   ======================= */
 .progress-container {
-    margin-top: 15px;
-    display: flex;
-    align-items: center;
+    margin-top: 16px;
+    display:flex;
+    align-items:center;
     gap: 10px;
 }
-#current-time, #duration { font-size: 0.85em; min-width: 40px; text-align: center; }
+#current-time, #duration {
+    font-size: 0.82rem;
+    color: #cfc7c8;
+    width: 46px;
+    text-align:center;
+}
 #progress-bar {
     flex: 1;
     height: 8px;
-    background: #300;
-    border-radius: 5px;
+    background: rgba(255,80,120,0.09);
+    border-radius: 8px;
     overflow: hidden;
     cursor: pointer;
-    box-shadow: inset 0 0 5px #000;
+    position: relative;
+    box-shadow: inset 0 -2px 6px rgba(0,0,0,0.25);
 }
 #progress {
     width: 0%;
     height: 100%;
-    background: linear-gradient(90deg, #ff0033, #ff8800);
-    transition: width 0.1s;
+    background: linear-gradient(90deg,#ff0033,#ff7700);
+    transition: width 120ms linear;
+    border-radius: 8px;
 }
 
-.install-container {
-    margin-top: 20px;
-    text-align: center; /* Force le centrage horizontal */
+/* current track label */
+#current-track {
+    margin-top: 12px;
+    font-size: 0.95rem;
+    color: #ddd;
+    font-style: italic;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
+/* =======================
+   INSTALL BUTTON
+   ======================= */
+.install-container { margin-top: 18px; 
+        margin-top: 18px;
+    display: flex;           /* active le flexbox */
+    justify-content: center; /* centre horizontalement */}
 #installBtn {
-    display: inline-block; /* pour que text-align fonctionne */
-    background: radial-gradient(circle, #550000, #220000);
-    border: 2px solid #aa2233;
-    color: #ff3344;
+    background: linear-gradient(90deg,#ff0040,#ff6600);
+    color: #fff;
+    border: none;
+    padding: 33px 92px;
     border-radius: 12px;
-    padding: 10px 20px;
-    font-size: 1em;
-    font-weight: bold;
+    font-weight: 600;
     cursor: pointer;
-    box-shadow: 0 0 10px rgba(255,0,50,0.5);
-    transition: transform 0.2s, box-shadow 0.2s;
-    width: auto;
+    box-shadow: 0 8px 26px rgba(255,60,80,0.14);
+    transition: transform 160ms ease, box-shadow 160ms ease;
+
+}
+#installBtn:hover { transform: translateY(-3px); box-shadow: 0 14px 36px rgba(255,70,100,0.2); }
+
+/* =======================
+   RESPONSIVE
+   ======================= */
+@media (max-width: 480px){
+    .player-container { padding: 22px 18px; max-width: 360px; width: 94%; }
+    h2 { font-size: 1.45rem; }
+    .switch-wrapper { width: 160px; }
+    .switch-toggle { width: 74px; }
+    button { width: 50px; height: 50px; }
+    #current-time, #duration { width: 40px; font-size: 0.76rem; }
 }
 
-#installBtn:hover {
-    transform: scale(1.05);
-    box-shadow: 0 0 20px rgba(255,0,80,0.9);
-}  
-    
-/* ----------- RESPONSIVE ----------- */
-@media (max-width: 480px) {
-    h1 { font-size: 1.5em; }
-    button { width: 50px; height: 50px; }
-    button svg { width: 20px; height: 20px; }
-}
+/* =======================
+   UTILS - prevent horizontal scrollbar globally inside playlists
+   ======================= */
+.playlist, .playlist ul, .player-container { -webkit-overflow-scrolling: touch; overflow-x: hidden; }
+
+
 </style>
 </head>
 <body>
 <div class="player-container">
-    <h2>Helluva Boss Music Player</h2>
-    <br>
-<div class="format-switch">
-    <label>
-        <input type="radio" name="format" value="mp3" checked>
-        MP3 (léger, compatible)
-    </label>
-    <label>
-        <input type="radio" name="format" value="flac">
-        FLAC (lossless, meilleure qualité)
-    </label>
-</div>
-    <div class="playlist">
+    <h2>DeerCast</h2>
+
+    <!-- SWITCH MP3 / FLAC -->
+    <div class="format-switch">
+        <div class="switch-wrapper" id="formatSwitch">
+            <div class="switch-toggle"></div>
+            <div class="switch-label active" data-format="mp3">MP3</div>
+            <div class="switch-label" data-format="flac">FLAC</div>
+        </div>
+    </div>
+
+    <!-- PLAYLISTS -->
+    <div class="playlists-container">
         <details>
+        <summary>Helluva Boss</summary>
+                    <details>
             <summary>Saison 1</summary>
-            <ul id="saison1"></ul>
+            <ul class="playlist" id="saison1"></ul>
         </details>
         <details>
             <summary>Saison 2</summary>
-            <ul id="saison2"></ul>
+            <ul class="playlist" id="saison2"></ul>
+        </details>
+        </details>
+
+                <details>
+            <summary>Hazbin Hotel</summary>
+            <ul class="playlist" id="hazbinhotel"></ul>
         </details>
     </div>
 
+    <!-- CONTROLS -->
     <div class="controls">
         <button id="prev" title="Précédent">
             <svg viewBox="0 0 24 24"><path d="M6 12L20 4v16L6 12zm-2 8V4h2v16H4z"/></svg>
@@ -212,6 +421,7 @@ button svg { width: 26px; height: 26px; fill: currentColor; }
         </button>
     </div>
 
+    <!-- PROGRESS -->
     <div class="progress-container">
         <span id="current-time">0:00</span>
         <div id="progress-bar">
@@ -222,8 +432,9 @@ button svg { width: 26px; height: 26px; fill: currentColor; }
 
     <div id="current-track">Aucune musique</div>
     <audio id="audio"></audio>
-    <br><br>
-        <div class="install-container">
+
+    <!-- INSTALL BUTTON -->
+    <div class="install-container">
         <button id="installBtn">Installer l'application</button>
     </div>
 </div>
@@ -248,9 +459,10 @@ let selectedFormat = "mp3";
 fetch("tracks.json")
     .then(res => res.json())
     .then(data => {
-        allTracks = [...data["Saison1"], ...data["Saison2"]];
+        allTracks = [...data["Saison1"], ...data["Saison2"], ...data["Hazbinhotel"]];
         buildPlaylist(data["Saison1"], "saison1");
         buildPlaylist(data["Saison2"], "saison2");
+        buildPlaylist(data["Hazbinhotel"], "hazbinhotel");
         buildGlobalPlaylist();
     });
 
@@ -396,15 +608,34 @@ document.querySelectorAll('input[name="format"]').forEach(radio => {
     });
 });
 
-// Bouton installation PWA
+// Bouton installation PWA avec check si déjà en mode app
+const installBtn = document.getElementById('installBtn');
+
+function hideInstallButtonIfApp() {
+    const isStandalone = window.matchMedia('(display-mode: standalone)').matches
+                        || window.navigator.standalone === true;
+    if (isStandalone && installBtn) {
+        installBtn.style.display = 'none';
+    }
+}
+
+// Vérifie au chargement
+window.addEventListener('load', hideInstallButtonIfApp);
+
+// Écoute avant l'installation
 let deferredPrompt;
 window.addEventListener('beforeinstallprompt', (e) => {
     e.preventDefault();
     deferredPrompt = e;
-    document.getElementById('installBtn').style.display = 'inline-block';
+
+    // Affiche le bouton seulement si on n’est pas déjà en app
+    if (!window.matchMedia('(display-mode: standalone)').matches
+        && !window.navigator.standalone) {
+        installBtn.style.display = 'inline-block';
+    }
 });
 
-const installBtn = document.getElementById('installBtn');
+// Clic sur le bouton pour installer
 installBtn.addEventListener('click', async () => {
     if (deferredPrompt) {
         deferredPrompt.prompt();
@@ -423,6 +654,29 @@ if ('serviceWorker' in navigator) {
         .catch(err => console.error('Erreur SW :', err));
     });
 }
+    
+const formatSwitch = document.getElementById('formatSwitch');
+const toggle = formatSwitch.querySelector('.switch-toggle');
+const labels = formatSwitch.querySelectorAll('.switch-label');
+
+let formatState = 'mp3';
+
+formatSwitch.addEventListener('click', () => {
+    formatState = formatState === 'mp3' ? 'flac' : 'mp3';
+    selectedFormat = formatState; // relie à ton code existant
+    buildGlobalPlaylist();
+    playTrack(currentIndex);
+
+    if (formatState === 'mp3') {
+        toggle.style.left = '3px';
+        labels[0].classList.add('active');
+        labels[1].classList.remove('active');
+    } else {
+        toggle.style.left = '93px';
+        labels[0].classList.remove('active');
+        labels[1].classList.add('active');
+    }
+});
 </script>
 
 </body>

@@ -3,7 +3,8 @@ import json
 
 folders = {
     "Saison1": "music/Saison 1",
-    "Saison2": "music/Saison 2"
+    "Saison2": "music/Saison 2",
+    "Hazbin Hotel": "music/Hazbin Hotel"
 }
 
 extensions = [".mp3", ".flac"]

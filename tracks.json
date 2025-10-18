@@ -303,5 +303,119 @@
                 "music/Saison 2/26. Helluva Boss - Merry Sinsmas.mp3"
             ]
         }
+    ],
+    "Hazbinhotel": [
+        {
+            "title": "01. Happy Day In Hell",
+            "files": [
+                "music/Hazbin Hotel/01. Happy Day In Hell.flac",
+                "music/Hazbin Hotel/01. Happy Day In Hell.mp3"
+            ]
+        },
+        {
+            "title": "02. Hell Is Forever",
+            "files": [
+                "music/Hazbin Hotel/02. Hell Is Forever.flac",
+                "music/Hazbin Hotel/02. Hell Is Forever.mp3"
+            ]
+        },
+        {
+            "title": "03. Stayed Gone",
+            "files": [
+                "music/Hazbin Hotel/03. Stayed Gone.flac",
+                "music/Hazbin Hotel/03. Stayed Gone.mp3"
+            ]
+        },
+        {
+            "title": "04. It Starts With Sorry",
+            "files": [
+                "music/Hazbin Hotel/04. It Starts With Sorry.flac",
+                "music/Hazbin Hotel/04. It Starts With Sorry.mp3"
+            ]
+        },
+        {
+            "title": "05. Respectless",
+            "files": [
+                "music/Hazbin Hotel/05. Respectless.flac",
+                "music/Hazbin Hotel/05. Respectless.mp3"
+            ]
+        },
+        {
+            "title": "06. Whatever It Takes",
+            "files": [
+                "music/Hazbin Hotel/06. Whatever It Takes.flac",
+                "music/Hazbin Hotel/06. Whatever It Takes.mp3"
+            ]
+        },
+        {
+            "title": "07. Poison",
+            "files": [
+                "music/Hazbin Hotel/07. Poison.flac",
+                "music/Hazbin Hotel/07. Poison.mp3"
+            ]
+        },
+        {
+            "title": "08. Loser, Baby",
+            "files": [
+                "music/Hazbin Hotel/08. Loser, Baby.flac",
+                "music/Hazbin Hotel/08. Loser, Baby.mp3"
+            ]
+        },
+        {
+            "title": "09. Hell’s Greatest Dad",
+            "files": [
+                "music/Hazbin Hotel/09. Hell’s Greatest Dad.flac",
+                "music/Hazbin Hotel/09. Hell’s Greatest Dad.mp3"
+            ]
+        },
+        {
+            "title": "10. More Than Anything",
+            "files": [
+                "music/Hazbin Hotel/10. More Than Anything.flac",
+                "music/Hazbin Hotel/10. More Than Anything.mp3"
+            ]
+        },
+        {
+            "title": "11. Welcome To Heaven",
+            "files": [
+                "music/Hazbin Hotel/11. Welcome To Heaven.flac",
+                "music/Hazbin Hotel/11. Welcome To Heaven.mp3"
+            ]
+        },
+        {
+            "title": "12. You Didn’t Know",
+            "files": [
+                "music/Hazbin Hotel/12. You Didn’t Know.flac",
+                "music/Hazbin Hotel/12. You Didn’t Know.mp3"
+            ]
+        },
+        {
+            "title": "13. Out For Love",
+            "files": [
+                "music/Hazbin Hotel/13. Out For Love.flac",
+                "music/Hazbin Hotel/13. Out For Love.mp3"
+            ]
+        },
+        {
+            "title": "14. Ready For This",
+            "files": [
+                "music/Hazbin Hotel/14. Ready For This.flac",
+                "music/Hazbin Hotel/14. Ready For This.mp3"
+            ]
+        },
+        {
+            "title": "15. More Than Anything (Reprise)",
+            "files": [
+                "music/Hazbin Hotel/15. More Than Anything (Reprise).flac",
+                "music/Hazbin Hotel/15. More Than Anything (Reprise).mp3"
+            ]
+        },
+        {
+            "title": "16. Finale",
+            "files": [
+                "music/Hazbin Hotel/16. Finale.flac",
+                "music/Hazbin Hotel/16. Finale.mp3"
+            ]
+        }
     ]
 }
