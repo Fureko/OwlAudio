@@ -304,117 +304,259 @@
             ]
         }
     ],
-    "Hazbinhotel": [
+    "Hazbin Hotel1": [
         {
             "title": "01. Happy Day In Hell",
             "files": [
-                "music/Hazbin Hotel/01. Happy Day In Hell.flac",
-                "music/Hazbin Hotel/01. Happy Day In Hell.mp3"
+                "music/HBSaison 1/01. Happy Day In Hell.flac",
+                "music/HBSaison 1/01. Happy Day In Hell.mp3"
             ]
         },
         {
             "title": "02. Hell Is Forever",
             "files": [
-                "music/Hazbin Hotel/02. Hell Is Forever.flac",
-                "music/Hazbin Hotel/02. Hell Is Forever.mp3"
+                "music/HBSaison 1/02. Hell Is Forever.flac",
+                "music/HBSaison 1/02. Hell Is Forever.mp3"
             ]
         },
         {
             "title": "03. Stayed Gone",
             "files": [
-                "music/Hazbin Hotel/03. Stayed Gone.flac",
-                "music/Hazbin Hotel/03. Stayed Gone.mp3"
+                "music/HBSaison 1/03. Stayed Gone.flac",
+                "music/HBSaison 1/03. Stayed Gone.mp3"
             ]
         },
         {
             "title": "04. It Starts With Sorry",
             "files": [
-                "music/Hazbin Hotel/04. It Starts With Sorry.flac",
-                "music/Hazbin Hotel/04. It Starts With Sorry.mp3"
+                "music/HBSaison 1/04. It Starts With Sorry.flac",
+                "music/HBSaison 1/04. It Starts With Sorry.mp3"
             ]
         },
         {
             "title": "05. Respectless",
             "files": [
-                "music/Hazbin Hotel/05. Respectless.flac",
-                "music/Hazbin Hotel/05. Respectless.mp3"
+                "music/HBSaison 1/05. Respectless.flac",
+                "music/HBSaison 1/05. Respectless.mp3"
             ]
         },
         {
             "title": "06. Whatever It Takes",
             "files": [
-                "music/Hazbin Hotel/06. Whatever It Takes.flac",
-                "music/Hazbin Hotel/06. Whatever It Takes.mp3"
+                "music/HBSaison 1/06. Whatever It Takes.flac",
+                "music/HBSaison 1/06. Whatever It Takes.mp3"
             ]
         },
         {
             "title": "07. Poison",
             "files": [
-                "music/Hazbin Hotel/07. Poison.flac",
-                "music/Hazbin Hotel/07. Poison.mp3"
+                "music/HBSaison 1/07. Poison.flac",
+                "music/HBSaison 1/07. Poison.mp3"
             ]
         },
         {
             "title": "08. Loser, Baby",
             "files": [
-                "music/Hazbin Hotel/08. Loser, Baby.flac",
-                "music/Hazbin Hotel/08. Loser, Baby.mp3"
+                "music/HBSaison 1/08. Loser, Baby.flac",
+                "music/HBSaison 1/08. Loser, Baby.mp3"
             ]
         },
         {
             "title": "09. Hell’s Greatest Dad",
             "files": [
-                "music/Hazbin Hotel/09. Hell’s Greatest Dad.flac",
-                "music/Hazbin Hotel/09. Hell’s Greatest Dad.mp3"
+                "music/HBSaison 1/09. Hell’s Greatest Dad.flac",
+                "music/HBSaison 1/09. Hell’s Greatest Dad.mp3"
             ]
         },
         {
             "title": "10. More Than Anything",
             "files": [
-                "music/Hazbin Hotel/10. More Than Anything.flac",
-                "music/Hazbin Hotel/10. More Than Anything.mp3"
+                "music/HBSaison 1/10. More Than Anything.flac",
+                "music/HBSaison 1/10. More Than Anything.mp3"
             ]
         },
         {
             "title": "11. Welcome To Heaven",
             "files": [
-                "music/Hazbin Hotel/11. Welcome To Heaven.flac",
-                "music/Hazbin Hotel/11. Welcome To Heaven.mp3"
+                "music/HBSaison 1/11. Welcome To Heaven.flac",
+                "music/HBSaison 1/11. Welcome To Heaven.mp3"
             ]
         },
         {
             "title": "12. You Didn’t Know",
             "files": [
-                "music/Hazbin Hotel/12. You Didn’t Know.flac",
-                "music/Hazbin Hotel/12. You Didn’t Know.mp3"
+                "music/HBSaison 1/12. You Didn’t Know.flac",
+                "music/HBSaison 1/12. You Didn’t Know.mp3"
             ]
         },
         {
             "title": "13. Out For Love",
             "files": [
-                "music/Hazbin Hotel/13. Out For Love.flac",
-                "music/Hazbin Hotel/13. Out For Love.mp3"
+                "music/HBSaison 1/13. Out For Love.flac",
+                "music/HBSaison 1/13. Out For Love.mp3"
             ]
         },
         {
             "title": "14. Ready For This",
             "files": [
-                "music/Hazbin Hotel/14. Ready For This.flac",
-                "music/Hazbin Hotel/14. Ready For This.mp3"
+                "music/HBSaison 1/14. Ready For This.flac",
+                "music/HBSaison 1/14. Ready For This.mp3"
             ]
         },
         {
             "title": "15. More Than Anything (Reprise)",
             "files": [
-                "music/Hazbin Hotel/15. More Than Anything (Reprise).flac",
-                "music/Hazbin Hotel/15. More Than Anything (Reprise).mp3"
+                "music/HBSaison 1/15. More Than Anything (Reprise).flac",
+                "music/HBSaison 1/15. More Than Anything (Reprise).mp3"
             ]
         },
         {
             "title": "16. Finale",
             "files": [
-                "music/Hazbin Hotel/16. Finale.flac",
-                "music/Hazbin Hotel/16. Finale.mp3"
+                "music/HBSaison 1/16. Finale.flac",
+                "music/HBSaison 1/16. Finale.mp3"
+            ]
+        }
+    ],
+    "Hazbin Hotel2": [
+        {
+            "title": "01. Hazbin Hotel - Hazbin Guarantee (Trust Us)",
+            "files": [
+                "music/HBSaison 2/01. Hazbin Hotel - Hazbin Guarantee (Trust Us).flac",
+                "music/HBSaison 2/01. Hazbin Hotel - Hazbin Guarantee (Trust Us).mp3"
+            ]
+        },
+        {
+            "title": "02. Hazbin Hotel - Once We Get Up There",
+            "files": [
+                "music/HBSaison 2/02. Hazbin Hotel - Once We Get Up There.flac",
+                "music/HBSaison 2/02. Hazbin Hotel - Once We Get Up There.mp3"
+            ]
+        },
+        {
+            "title": "03. Hazbin Hotel - Like You",
+            "files": [
+                "music/HBSaison 2/03. Hazbin Hotel - Like You.flac",
+                "music/HBSaison 2/03. Hazbin Hotel - Like You.mp3"
+            ]
+        },
+        {
+            "title": "04. Hazbin Hotel - Sera's Confession",
+            "files": [
+                "music/HBSaison 2/04. Hazbin Hotel - Sera's Confession.flac",
+                "music/HBSaison 2/04. Hazbin Hotel - Sera's Confession.mp3"
+            ]
+        },
+        {
+            "title": "05. Hazbin Hotel - Gravity",
+            "files": [
+                "music/HBSaison 2/05. Hazbin Hotel - Gravity.flac",
+                "music/HBSaison 2/05. Hazbin Hotel - Gravity.mp3"
+            ]
+        },
+        {
+            "title": "06. Hazbin Hotel - Piss (A Love Song)",
+            "files": [
+                "music/HBSaison 2/06. Hazbin Hotel - Piss (A Love Song).flac",
+                "music/HBSaison 2/06. Hazbin Hotel - Piss (A Love Song).mp3"
+            ]
+        },
+        {
+            "title": "07. Hazbin Hotel - Speedrun To Redemption",
+            "files": [
+                "music/HBSaison 2/07. Hazbin Hotel - Speedrun To Redemption.flac",
+                "music/HBSaison 2/07. Hazbin Hotel - Speedrun To Redemption.mp3"
+            ]
+        },
+        {
+            "title": "08. Hazbin Hotel - Don't You Forget",
+            "files": [
+                "music/HBSaison 2/08. Hazbin Hotel - Don't You Forget.flac",
+                "music/HBSaison 2/08. Hazbin Hotel - Don't You Forget.mp3"
+            ]
+        },
+        {
+            "title": "09. Hazbin Hotel - Clean It Up!",
+            "files": [
+                "music/HBSaison 2/09. Hazbin Hotel - Clean It Up!.flac",
+                "music/HBSaison 2/09. Hazbin Hotel - Clean It Up!.mp3"
+            ]
+        },
+        {
+            "title": "10. Hazbin Hotel - Don't You Forget (Reprise)",
+            "files": [
+                "music/HBSaison 2/10. Hazbin Hotel - Don't You Forget (Reprise).flac",
+                "music/HBSaison 2/10. Hazbin Hotel - Don't You Forget (Reprise).mp3"
+            ]
+        },
+        {
+            "title": "11. Hazbin Hotel - Bad With Us",
+            "files": [
+                "music/HBSaison 2/11. Hazbin Hotel - Bad With Us.flac",
+                "music/HBSaison 2/11. Hazbin Hotel - Bad With Us.mp3"
+            ]
+        },
+        {
+            "title": "12. Hazbin Hotel - VOX POPULI",
+            "files": [
+                "music/HBSaison 2/12. Hazbin Hotel - VOX POPULI.flac",
+                "music/HBSaison 2/12. Hazbin Hotel - VOX POPULI.mp3"
+            ]
+        },
+        {
+            "title": "13. Hazbin Hotel - VOX DEI",
+            "files": [
+                "music/HBSaison 2/13. Hazbin Hotel - VOX DEI.flac",
+                "music/HBSaison 2/13. Hazbin Hotel - VOX DEI.mp3"
+            ]
+        },
+        {
+            "title": "14. Hazbin Hotel - Love In A Bottle",
+            "files": [
+                "music/HBSaison 2/14. Hazbin Hotel - Love In A Bottle.flac",
+                "music/HBSaison 2/14. Hazbin Hotel - Love In A Bottle.mp3"
+            ]
+        },
+        {
+            "title": "15. Hazbin Hotel - Losin' Streak",
+            "files": [
+                "music/HBSaison 2/15. Hazbin Hotel - Losin' Streak.flac",
+                "music/HBSaison 2/15. Hazbin Hotel - Losin' Streak.mp3"
+            ]
+        },
+        {
+            "title": "16. Hazbin Hotel - Easy",
+            "files": [
+                "music/HBSaison 2/16. Hazbin Hotel - Easy.flac",
+                "music/HBSaison 2/16. Hazbin Hotel - Easy.mp3"
+            ]
+        },
+        {
+            "title": "17. Hazbin Hotel - Brighter",
+            "files": [
+                "music/HBSaison 2/17. Hazbin Hotel - Brighter.flac",
+                "music/HBSaison 2/17. Hazbin Hotel - Brighter.mp3"
+            ]
+        },
+        {
+            "title": "18. Hazbin Hotel - Live To Live",
+            "files": [
+                "music/HBSaison 2/18. Hazbin Hotel - Live To Live.flac",
+                "music/HBSaison 2/18. Hazbin Hotel - Live To Live.mp3"
+            ]
+        },
+        {
+            "title": "19. Hazbin Hotel - When I Think About The Future",
+            "files": [
+                "music/HBSaison 2/19. Hazbin Hotel - When I Think About The Future.flac",
+                "music/HBSaison 2/19. Hazbin Hotel - When I Think About The Future.mp3"
+            ]
+        },
+        {
+            "title": "20. Hazbin Hotel - Hear My Hope",
+            "files": [
+                "music/HBSaison 2/20. Hazbin Hotel - Hear My Hope.flac",
+                "music/HBSaison 2/20. Hazbin Hotel - Hear My Hope.mp3"
             ]
         }
     ]

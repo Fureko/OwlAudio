@@ -390,20 +390,27 @@ button:active svg { transform: scale(0.92); }
     <!-- PLAYLISTS -->
     <div class="playlists-container">
         <details>
-        <summary>Helluva Boss</summary>
-                    <details>
-            <summary>Saison 1</summary>
-            <ul class="playlist" id="saison1"></ul>
-        </details>
-        <details>
-            <summary>Saison 2</summary>
-            <ul class="playlist" id="saison2"></ul>
-        </details>
+            <summary>Helluva Boss</summary>
+            <details>
+                <summary>Saison 1</summary>
+                <ul class="playlist" id="saison1"></ul>
+            </details>
+            <details>
+                <summary>Saison 2</summary>
+                <ul class="playlist" id="saison2"></ul>
+            </details>
         </details>
 
-                <details>
+        <details>
             <summary>Hazbin Hotel</summary>
-            <ul class="playlist" id="hazbinhotel"></ul>
+            <details>
+                <summary>Saison 1</summary>
+                <ul class="playlist" id="hazbinhotel1"></ul>
+            </details>
+            <details>
+                <summary>Saison 2</summary>
+                <ul class="playlist" id="hazbinhotel2"></ul>
+            </details>
         </details>
     </div>
 
@@ -459,10 +466,11 @@ let selectedFormat = "mp3";
 fetch("tracks.json")
     .then(res => res.json())
     .then(data => {
-        allTracks = [...data["Saison1"], ...data["Saison2"], ...data["Hazbinhotel"]];
+        allTracks = [...data["Saison1"], ...data["Saison2"], ...data["Hazbin Hotel1"], ...data["Hazbin Hotel2"]];
         buildPlaylist(data["Saison1"], "saison1");
         buildPlaylist(data["Saison2"], "saison2");
-        buildPlaylist(data["Hazbinhotel"], "hazbinhotel");
+        buildPlaylist(data["Hazbin Hotel1"], "hazbinhotel1");
+        buildPlaylist(data["Hazbin Hotel2"], "hazbinhotel2");
         buildGlobalPlaylist();
     });
 
